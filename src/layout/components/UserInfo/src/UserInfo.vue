@@ -41,8 +41,9 @@ const loginOut = async () => {
       cancelButtonText: t('common.cancel'),
       type: 'warning'
     })
-    await userStore.loginOut()
-    tagsViewStore.delAllViews()
+    // await userStore.loginOut()
+    // tagsViewStore.delAllViews()
+    console.log("dddd!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     replace('/login?redirect=/index')
   } catch {}
 }

@@ -14,7 +14,7 @@ export interface SmsLoginVO {
 
 // 登录
 export const login = (data: UserLoginVO) => {
-  return request.post({ url: '/system/auth/login', data })
+  return request.post({ url: '/uaa/user/login', data })
 }
 
 // 刷新访问令牌
@@ -34,7 +34,7 @@ export const getTenantByWebsite = (website: string) => {
 
 // 登出
 export const loginOut = () => {
-  return request.post({ url: '/system/auth/logout' })
+  return request.post({ url: '/uaa/user/logout' })
 }
 
 // 获取用户权限信息

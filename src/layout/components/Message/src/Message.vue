@@ -18,9 +18,9 @@ const getList = async () => {
 
 // 获得未读消息数
 const getUnreadCount = async () => {
-  NotifyMessageApi.getUnreadNotifyMessageCount().then((data) => {
-    unreadCount.value = data
-  })
+  // NotifyMessageApi.getUnreadNotifyMessageCount().then((data) => {
+  //   unreadCount.value = data
+  // })
 }
 
 // 跳转我的站内信

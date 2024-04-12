@@ -60,35 +60,35 @@ const whiteList = [
 router.beforeEach(async (to, from, next) => {
   start()
   loadStart()
-  if (getAccessToken()) {
+  if (!getAccessToken()) {
     if (to.path === '/login') {
       next({ path: '/' })
     } else {
       // 获取所有字典
-      const dictStore = useDictStoreWithOut()
-      const userStore = useUserStoreWithOut()
-      const permissionStore = usePermissionStoreWithOut()
-      if (!dictStore.getIsSetDict) {
-        await dictStore.setDictMap()
-      }
-      if (!userStore.getIsSetUser) {
-        isRelogin.show = true
-        await userStore.setUserInfoAction()
-        isRelogin.show = false
-        // 后端过滤菜单
-        await permissionStore.generateRoutes()
-        permissionStore.getAddRouters.forEach((route) => {
-          router.addRoute(route as unknown as RouteRecordRaw) // 动态添加可访问路由表
-        })
-        const redirectPath = from.query.redirect || to.path
-        // 修复跳转时不带参数的问题
-        const redirect = decodeURIComponent(redirectPath as string)
-        const { basePath, paramsObject: query } = parseURL(redirect)
-        const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect, query }
-        next(nextData)
-      } else {
+      // const dictStore = useDictStoreWithOut()
+      // const userStore = useUserStoreWithOut()
+      // const permissionStore = usePermissionStoreWithOut()
+      // if (!dictStore.getIsSetDict) {
+      //   await dictStore.setDictMap()
+      // }
+      // if (!userStore.getIsSetUser) {
+      //   isRelogin.show = true
+      //   await userStore.setUserInfoAction()
+      //   isRelogin.show = false
+      //   // 后端过滤菜单
+      //   await permissionStore.generateRoutes()
+      //   permissionStore.getAddRouters.forEach((route) => {
+      //     router.addRoute(route as unknown as RouteRecordRaw) // 动态添加可访问路由表
+      //   })
+      //   const redirectPath = from.query.redirect || to.path
+      //   // 修复跳转时不带参数的问题
+      //   const redirect = decodeURIComponent(redirectPath as string)
+      //   const { basePath, paramsObject: query } = parseURL(redirect)
+      //   const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect, query }
+      //   next(nextData)
+      // } else {
         next()
-      }
+     // }
     }
   } else {
     if (whiteList.indexOf(to.path) !== -1) {

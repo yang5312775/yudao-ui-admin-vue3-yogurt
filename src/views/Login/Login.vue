@@ -9,7 +9,7 @@
       >
         <!-- 左上角的 logo + 系统标题 -->
         <div class="relative flex items-center text-white">
-          <img alt="" class="mr-10px h-48px w-48px" src="@/assets/imgs/logo.png" />
+          <!-- <img alt="" class="mr-10px h-48px w-48px" src="@/assets/imgs/logo.png" /> -->
           <span class="text-20px font-bold">{{ underlineToHump(appStore.getTitle) }}</span>
         </div>
         <!-- 左边的背景图 + 欢迎语 -->
@@ -21,9 +21,9 @@
           >
             <img key="1" alt="" class="w-350px" src="@/assets/svgs/login-box-bg.svg" />
             <div key="2" class="text-3xl text-white">{{ t('login.welcome') }}</div>
-            <div key="3" class="mt-5 text-14px font-normal text-white">
+            <!-- <div key="3" class="mt-5 text-14px font-normal text-white">
               {{ t('login.message') }}
-            </div>
+            </div> -->
           </TransitionGroup>
         </div>
       </div>
