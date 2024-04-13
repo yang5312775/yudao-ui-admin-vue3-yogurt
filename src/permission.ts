@@ -58,28 +58,32 @@ const whiteList = [
 
 // 路由加载前
 router.beforeEach(async (to, from, next) => {
+  console.log("before each" , to , from)
   start()
   loadStart()
-  if (!getAccessToken()) {
+  if (getAccessToken()) {
+    console.log("get access token!!!")
     if (to.path === '/login') {
+      console.log("login!!!!")
       next({ path: '/' })
     } else {
       // 获取所有字典
       // const dictStore = useDictStoreWithOut()
-      // const userStore = useUserStoreWithOut()
-      // const permissionStore = usePermissionStoreWithOut()
+       const userStore = useUserStoreWithOut()
+      console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+       const permissionStore = usePermissionStoreWithOut()
       // if (!dictStore.getIsSetDict) {
       //   await dictStore.setDictMap()
       // }
       // if (!userStore.getIsSetUser) {
       //   isRelogin.show = true
-      //   await userStore.setUserInfoAction()
+          await userStore.setUserInfoAction()
       //   isRelogin.show = false
       //   // 后端过滤菜单
-      //   await permissionStore.generateRoutes()
-      //   permissionStore.getAddRouters.forEach((route) => {
-      //     router.addRoute(route as unknown as RouteRecordRaw) // 动态添加可访问路由表
-      //   })
+         await permissionStore.generateRoutes()
+        //  permissionStore.getAddRouters.forEach((route) => {
+        //    router.addRoute(route as unknown as RouteRecordRaw) // 动态添加可访问路由表
+        //  })
       //   const redirectPath = from.query.redirect || to.path
       //   // 修复跳转时不带参数的问题
       //   const redirect = decodeURIComponent(redirectPath as string)
@@ -91,6 +95,7 @@ router.beforeEach(async (to, from, next) => {
      // }
     }
   } else {
+    console.log("not get access token")
     if (whiteList.indexOf(to.path) !== -1) {
       next()
     } else {

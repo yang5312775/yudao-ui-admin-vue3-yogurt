@@ -239,7 +239,8 @@ const remainingRouter: AppRouteRecordRaw[] = [
     component: Layout,
     name: 'bpm',
     meta: {
-      hidden: true
+      hidden: false,
+      title: '流程管理'
     },
     children: [
       {
@@ -248,7 +249,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         name: 'BpmFormEditor',
         meta: {
           noCache: true,
-          hidden: true,
+          hidden: false,
           canTo: true,
           title: '设计流程表单',
           activeMenu: '/bpm/manager/form'
@@ -260,7 +261,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         name: 'BpmModelEditor',
         meta: {
           noCache: true,
-          hidden: true,
+          hidden: false,
           canTo: true,
           title: '设计流程',
           activeMenu: '/bpm/manager/model'
@@ -272,7 +273,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         name: 'SimpleWorkflowDesignEditor',
         meta: {
           noCache: true,
-          hidden: true,
+          hidden: false,
           canTo: true,
           title: '仿钉钉设计流程',
           activeMenu: '/bpm/manager/model'
@@ -284,7 +285,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         name: 'BpmProcessDefinition',
         meta: {
           noCache: true,
-          hidden: true,
+          hidden: false,
           canTo: true,
           title: '流程定义',
           activeMenu: '/bpm/manager/model'
@@ -296,7 +297,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         name: 'BpmProcessInstanceDetail',
         meta: {
           noCache: true,
-          hidden: true,
+          hidden: false,
           canTo: true,
           title: '流程详情',
           activeMenu: '/bpm/task/my'
@@ -308,7 +309,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         name: 'OALeaveCreate',
         meta: {
           noCache: true,
-          hidden: true,
+          hidden: false,
           canTo: true,
           title: '发起 OA 请假',
           activeMenu: '/bpm/oa/leave'
@@ -320,7 +321,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         name: 'OALeaveDetail',
         meta: {
           noCache: true,
-          hidden: true,
+          hidden: false,
           canTo: true,
           title: '查看 OA 请假',
           activeMenu: '/bpm/oa/leave'
@@ -333,7 +334,8 @@ const remainingRouter: AppRouteRecordRaw[] = [
     component: Layout,
     name: 'ProductCenter',
     meta: {
-      hidden: true
+      hidden: false,
+      title:"商品中心"
     },
     children: [
       {
@@ -342,7 +344,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         name: 'ProductSpuAdd',
         meta: {
           noCache: true,
-          hidden: true,
+          hidden: false,
           canTo: true,
           icon: 'ep:edit',
           title: '商品添加',
@@ -355,7 +357,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         name: 'ProductSpuEdit',
         meta: {
           noCache: true,
-          hidden: true,
+          hidden: false,
           canTo: true,
           icon: 'ep:edit',
           title: '商品编辑',
@@ -368,7 +370,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         name: 'ProductSpuDetail',
         meta: {
           noCache: true,
-          hidden: true,
+          hidden: false,
           canTo: true,
           icon: 'ep:view',
           title: '商品详情',
@@ -381,7 +383,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         name: 'ProductPropertyValue',
         meta: {
           noCache: true,
-          hidden: true,
+          hidden: false,
           canTo: true,
           icon: 'ep:view',
           title: '商品属性值',
@@ -395,7 +397,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
     component: Layout,
     name: 'TradeCenter',
     meta: {
-      hidden: true
+      hidden: false
     },
     children: [
       {
@@ -416,14 +418,14 @@ const remainingRouter: AppRouteRecordRaw[] = [
     path: '/member',
     component: Layout,
     name: 'MemberCenter',
-    meta: { hidden: true },
+    meta: { hidden: false },
     children: [
       {
         path: 'user/detail/:id',
         name: 'MemberUserDetail',
         meta: {
           title: '会员详情',
-          noCache: true,
+          noCache: false,
           hidden: true
         },
         component: () => import('@/views/member/user/detail/index.vue')
@@ -434,7 +436,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
     path: '/pay',
     component: Layout,
     name: 'pay',
-    meta: { hidden: true },
+    meta: { hidden: false },
     children: [
       {
         path: 'cashier',
@@ -442,7 +444,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         meta: {
           title: '收银台',
           noCache: true,
-          hidden: true
+          hidden: false
         },
         component: () => import('@/views/pay/cashier/index.vue')
       }
@@ -460,7 +462,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         meta: {
           title: '模板装修',
           noCache: true,
-          hidden: true,
+          hidden: false,
           activeMenu: '/mall/promotion/diy/template'
         },
         component: () => import('@/views/mall/promotion/diy/template/decorate.vue')
@@ -471,7 +473,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         meta: {
           title: '页面装修',
           noCache: true,
-          hidden: true,
+          hidden: false,
           activeMenu: '/mall/promotion/diy/page'
         },
         component: () => import('@/views/mall/promotion/diy/page/decorate.vue')
@@ -490,7 +492,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         meta: {
           title: '线索详情',
           noCache: true,
-          hidden: true,
+          hidden: false,
           activeMenu: '/crm/clue'
         },
         component: () => import('@/views/crm/clue/detail/index.vue')
@@ -501,7 +503,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         meta: {
           title: '客户详情',
           noCache: true,
-          hidden: true,
+          hidden: false,
           activeMenu: '/crm/customer'
         },
         component: () => import('@/views/crm/customer/detail/index.vue')
@@ -512,7 +514,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         meta: {
           title: '商机详情',
           noCache: true,
-          hidden: true,
+          hidden: false,
           activeMenu: '/crm/business'
         },
         component: () => import('@/views/crm/business/detail/index.vue')
@@ -523,7 +525,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         meta: {
           title: '合同详情',
           noCache: true,
-          hidden: true,
+          hidden: false,
           activeMenu: '/crm/contract'
         },
         component: () => import('@/views/crm/contract/detail/index.vue')
@@ -534,7 +536,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         meta: {
           title: '回款计划详情',
           noCache: true,
-          hidden: true,
+          hidden: false,
           activeMenu: '/crm/receivable-plan'
         },
         component: () => import('@/views/crm/receivable/plan/detail/index.vue')
@@ -545,7 +547,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         meta: {
           title: '回款详情',
           noCache: true,
-          hidden: true,
+          hidden: false,
           activeMenu: '/crm/receivable'
         },
         component: () => import('@/views/crm/receivable/detail/index.vue')
@@ -556,7 +558,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         meta: {
           title: '联系人详情',
           noCache: true,
-          hidden: true,
+          hidden: false,
           activeMenu: '/crm/contact'
         },
         component: () => import('@/views/crm/contact/detail/index.vue')
@@ -567,7 +569,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
         meta: {
           title: '产品详情',
           noCache: true,
-          hidden: true,
+          hidden: false,
           activeMenu: '/crm/product'
         },
         component: () => import('@/views/crm/product/detail/index.vue')

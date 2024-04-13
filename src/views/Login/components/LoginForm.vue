@@ -174,8 +174,7 @@ const getLoginFormCache = () => {
       ...loginData.loginForm,
       username: loginForm.username ? loginForm.username : loginData.loginForm.username,
       password: loginForm.password ? loginForm.password : loginData.loginForm.password,
-      rememberMe: loginForm.rememberMe,
-      tenantName: loginForm.tenantName ? loginForm.tenantName : loginData.loginForm.tenantName
+      rememberMe: loginForm.rememberMe
     }
   }
 }
