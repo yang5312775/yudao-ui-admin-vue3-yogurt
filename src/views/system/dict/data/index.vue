@@ -64,17 +64,15 @@
   <ContentWrap>
     <el-table v-loading="loading" :data="list">
       <el-table-column label="字典编码" align="center" prop="id" />
-      <el-table-column label="字典标签" align="center" prop="label" />
-      <el-table-column label="字典键值" align="center" prop="value" />
+      <el-table-column label="字典标签" align="center" prop="dictKey" />
+      <el-table-column label="字典键值(数字)" align="center" prop="dictValueInt" />
+      <el-table-column label="字典键值(字符串)" align="center" prop="dictValueStr" />
       <el-table-column label="字典排序" align="center" prop="sort" />
       <el-table-column label="状态" align="center" prop="status">
         <template #default="scope">
           <dict-tag :type="DICT_TYPE.COMMON_STATUS" :value="scope.row.status" />
         </template>
       </el-table-column>
-      <el-table-column label="颜色类型" align="center" prop="colorType" />
-      <el-table-column label="CSS Class" align="center" prop="cssClass" />
-      <el-table-column label="备注" align="center" prop="remark" show-overflow-tooltip />
       <el-table-column
         label="创建时间"
         align="center"
@@ -106,7 +104,7 @@
     <!-- 分页 -->
     <Pagination
       :total="total"
-      v-model:page="queryParams.pageNo"
+      v-model:page="queryParams.pageNum"
       v-model:limit="queryParams.pageSize"
       @pagination="getList"
     />
@@ -133,11 +131,11 @@ const loading = ref(true) // 列表的加载中
 const total = ref(0) // 列表的总页数
 const list = ref([]) // 列表的数据
 const queryParams = reactive({
-  pageNo: 1,
+  pageNum: 1,
   pageSize: 10,
   label: '',
   status: undefined,
-  dictType: route.params.dictType
+  dictCode: route.params.dictType
 })
 const queryFormRef = ref() // 搜索的表单
 const exportLoading = ref(false) // 导出的加载中
@@ -157,7 +155,7 @@ const getList = async () => {
 
 /** 搜索按钮操作 */
 const handleQuery = () => {
-  queryParams.pageNo = 1
+  queryParams.pageNum = 1
   getList()
 }
 
@@ -170,7 +168,7 @@ const resetQuery = () => {
 /** 添加/修改操作 */
 const formRef = ref()
 const openForm = (type: string, id?: number) => {
-  formRef.value.open(type, id, queryParams.dictType)
+  formRef.value.open(type, id, queryParams.dictCode)
 }
 
 /** 删除按钮操作 */

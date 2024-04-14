@@ -19,7 +19,7 @@ export interface UpdateStatusReqVO {
 
 // 查询角色列表
 export const getRolePage = async (params: PageParam) => {
-  return await request.get({ url: '/system/role/page', params })
+  return await request.get({ url: '/uaa/role/page', params })
 }
 
 // 查询角色（精简)列表

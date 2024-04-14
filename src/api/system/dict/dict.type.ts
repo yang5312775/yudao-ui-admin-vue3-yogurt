@@ -16,7 +16,7 @@ export const getSimpleDictTypeList = () => {
 
 // 查询字典列表
 export const getDictTypePage = (params: PageParam) => {
-  return request.get({ url: '/system/dict-type/page', params })
+  return request.get({ url: '/infra/dict/page', params })
 }
 
 // 查询字典详情

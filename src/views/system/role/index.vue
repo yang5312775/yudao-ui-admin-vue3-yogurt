@@ -1,7 +1,4 @@
 <template>
-  <doc-alert title="功能权限" url="https://doc.iocoder.cn/resource-permission" />
-  <doc-alert title="数据权限" url="https://doc.iocoder.cn/data-permission" />
-
   <ContentWrap>
     <!-- 搜索工作栏 -->
     <el-form
@@ -60,7 +57,7 @@
           重置
         </el-button>
         <el-button
-          v-hasPermi="['system:role:create']"
+          v-hasPermi="['/system/role/insert']"
           plain
           type="primary"
           @click="openForm('create')"
@@ -69,7 +66,7 @@
           新增
         </el-button>
         <el-button
-          v-hasPermi="['system:role:export']"
+          v-hasPermi="['/system/role/export']"
           :loading="exportLoading"
           plain
           type="success"
@@ -86,11 +83,11 @@
   <ContentWrap>
     <el-table v-loading="loading" :data="list">
       <el-table-column align="center" label="角色编号" prop="id" />
-      <el-table-column align="center" label="角色名称" prop="name" />
+      <el-table-column align="center" label="角色名称" prop="roleName" />
       <el-table-column align="center" label="角色类型" prop="type" />
-      <el-table-column align="center" label="角色标识" prop="code" />
+      <el-table-column align="center" label="角色标识" prop="roleCode" />
       <el-table-column align="center" label="显示顺序" prop="sort" />
-      <el-table-column align="center" label="备注" prop="remark" />
+      <el-table-column align="center" label="备注" prop="description" />
       <el-table-column align="center" label="状态" prop="status">
         <template #default="scope">
           <dict-tag :type="DICT_TYPE.COMMON_STATUS" :value="scope.row.status" />
@@ -106,7 +103,7 @@
       <el-table-column :width="300" align="center" label="操作">
         <template #default="scope">
           <el-button
-            v-hasPermi="['system:role:update']"
+            v-hasPermi="['/system/role/update']"
             link
             type="primary"
             @click="openForm('update', scope.row.id)"
@@ -114,7 +111,7 @@
             编辑
           </el-button>
           <el-button
-            v-hasPermi="['system:permission:assign-role-menu']"
+            v-hasPermi="['/system/role/assignMenu']"
             link
             preIcon="ep:basketball"
             title="菜单权限"
@@ -124,17 +121,17 @@
             菜单权限
           </el-button>
           <el-button
-            v-hasPermi="['system:permission:assign-role-data-scope']"
+            v-hasPermi="['/system/role/assignFunction']"
             link
             preIcon="ep:coin"
-            title="数据权限"
+            title="接口权限"
             type="primary"
             @click="openDataPermissionForm(scope.row)"
           >
             数据权限
           </el-button>
           <el-button
-            v-hasPermi="['system:role:delete']"
+            v-hasPermi="['/system/role/delete']"
             link
             type="danger"
             @click="handleDelete(scope.row.id)"
@@ -147,7 +144,7 @@
     <!-- 分页 -->
     <Pagination
       v-model:limit="queryParams.pageSize"
-      v-model:page="queryParams.pageNo"
+      v-model:page="queryParams.pageNum"
       :total="total"
       @pagination="getList"
     />
@@ -178,7 +175,7 @@ const loading = ref(true) // 列表的加载中
 const total = ref(0) // 列表的总页数
 const list = ref([]) // 列表的数据
 const queryParams = reactive({
-  pageNo: 1,
+  pageNum: 1,
   pageSize: 10,
   code: '',
   name: '',
@@ -202,7 +199,7 @@ const getList = async () => {
 
 /** 搜索按钮操作 */
 const handleQuery = () => {
-  queryParams.pageNo = 1
+  queryParams.pageNum = 1
   getList()
 }
 

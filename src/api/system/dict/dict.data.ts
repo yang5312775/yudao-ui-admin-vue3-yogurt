@@ -20,7 +20,7 @@ export const getSimpleDictDataList = () => {
 
 // 查询字典数据列表
 export const getDictDataPage = (params: PageParam) => {
-  return request.get({ url: '/system/dict-data/page', params })
+  return request.get({ url: '/infra/dict/data/page', params })
 }
 
 // 查询字典数据详情

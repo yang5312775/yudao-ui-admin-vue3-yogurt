@@ -89,6 +89,18 @@ const bizRouter: AppRouteRecordRaw[] = [
           title: '菜单管理',
           activeMenu: '/bpm/manager/model'
         }
+      },
+      {
+        path: 'dict',
+        component: () => import('@/views/system/dict/index.vue'),
+        name: 'SystemDict',
+        meta: {
+          noCache: true,
+          hidden: false,
+          canTo: true,
+          title: '字典管理',
+          activeMenu: '/bpm/manager/model'
+        }
       }
     ]
   },

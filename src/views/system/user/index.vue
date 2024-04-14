@@ -1,16 +1,12 @@
 <template>
-  <doc-alert title="用户体系" url="https://doc.iocoder.cn/user-center/" />
-  <doc-alert title="三方登陆" url="https://doc.iocoder.cn/social-user/" />
-  <doc-alert title="Excel 导入导出" url="https://doc.iocoder.cn/excel-import-and-export/" />
-
   <el-row :gutter="20">
     <!-- 左侧部门树 -->
-    <el-col :span="4" :xs="24">
+    <!-- <el-col :span="4" :xs="24">
       <ContentWrap class="h-1/1">
         <DeptTree @node-click="handleDeptNodeClick" />
       </ContentWrap>
-    </el-col>
-    <el-col :span="20" :xs="24">
+    </el-col> -->
+    <el-col :span="24" :xs="24">
       <!-- 搜索 -->
       <ContentWrap>
         <el-form
@@ -70,7 +66,7 @@
               type="primary"
               plain
               @click="openForm('create')"
-              v-hasPermi="['system:user:create']"
+              v-hasPermi="['/system/user/insert']"
             >
               <Icon icon="ep:plus" /> 新增
             </el-button>
@@ -78,7 +74,7 @@
               type="warning"
               plain
               @click="handleImport"
-              v-hasPermi="['system:user:import']"
+              v-hasPermi="['/system/user/import']"
             >
               <Icon icon="ep:upload" /> 导入
             </el-button>
@@ -87,7 +83,7 @@
               plain
               @click="handleExport"
               :loading="exportLoading"
-              v-hasPermi="['system:user:export']"
+              v-hasPermi="['/system/user/export']"
             >
               <Icon icon="ep:download" />导出
             </el-button>
@@ -100,20 +96,13 @@
           <el-table-column
             label="用户名称"
             align="center"
-            prop="username"
+            prop="userName"
             :show-overflow-tooltip="true"
           />
           <el-table-column
             label="用户昵称"
             align="center"
-            prop="nickname"
-            :show-overflow-tooltip="true"
-          />
-          <el-table-column
-            label="部门"
-            align="center"
-            key="deptName"
-            prop="deptName"
+            prop="nickName"
             :show-overflow-tooltip="true"
           />
           <el-table-column label="手机号码" align="center" prop="mobile" width="120" />
@@ -141,16 +130,16 @@
                   type="primary"
                   link
                   @click="openForm('update', scope.row.id)"
-                  v-hasPermi="['system:user:update']"
+                  v-hasPermi="['/system/user/update']"
                 >
                   <Icon icon="ep:edit" />修改
                 </el-button>
                 <el-dropdown
                   @command="(command) => handleCommand(command, scope.row)"
                   v-hasPermi="[
-                    'system:user:delete',
-                    'system:user:update-password',
-                    'system:permission:assign-user-role'
+                    '/system/user/delete',
+                    '/system/user/updatePassword',
+                    '/system/user/assignRole'
                   ]"
                 >
                   <el-button type="primary" link><Icon icon="ep:d-arrow-right" /> 更多</el-button>
@@ -158,19 +147,19 @@
                     <el-dropdown-menu>
                       <el-dropdown-item
                         command="handleDelete"
-                        v-if="checkPermi(['system:user:delete'])"
+                        v-if="checkPermi(['/system/user/delete'])"
                       >
                         <Icon icon="ep:delete" />删除
                       </el-dropdown-item>
                       <el-dropdown-item
                         command="handleResetPwd"
-                        v-if="checkPermi(['system:user:update-password'])"
+                        v-if="checkPermi(['/system/user/updatePassword'])"
                       >
                         <Icon icon="ep:key" />重置密码
                       </el-dropdown-item>
                       <el-dropdown-item
                         command="handleRole"
-                        v-if="checkPermi(['system:permission:assign-user-role'])"
+                        v-if="checkPermi(['/system/user/assignRole'])"
                       >
                         <Icon icon="ep:circle-check" />分配角色
                       </el-dropdown-item>
@@ -183,7 +172,7 @@
         </el-table>
         <Pagination
           :total="total"
-          v-model:page="queryParams.pageNo"
+          v-model:page="queryParams.pageNum"
           v-model:limit="queryParams.pageSize"
           @pagination="getList"
         />
@@ -219,7 +208,7 @@ const loading = ref(true) // 列表的加载中
 const total = ref(0) // 列表的总页数
 const list = ref([]) // 列表的数
 const queryParams = reactive({
-  pageNo: 1,
+  pageNum: 1,
   pageSize: 10,
   username: undefined,
   mobile: undefined,
@@ -243,7 +232,7 @@ const getList = async () => {
 
 /** 搜索按钮操作 */
 const handleQuery = () => {
-  queryParams.pageNo = 1
+  queryParams.pageNum = 1
   getList()
 }
 
