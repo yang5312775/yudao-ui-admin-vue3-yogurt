@@ -64,9 +64,8 @@
   <ContentWrap>
     <el-table v-loading="loading" :data="list">
       <el-table-column label="字典编码" align="center" prop="id" />
-      <el-table-column label="字典标签" align="center" prop="dictKey" />
-      <el-table-column label="字典键值(数字)" align="center" prop="dictValueInt" />
-      <el-table-column label="字典键值(字符串)" align="center" prop="dictValueStr" />
+      <el-table-column label="字典标签" align="center" prop="label" />
+      <el-table-column label="字典键值" align="center" prop="value" />
       <el-table-column label="字典排序" align="center" prop="sort" />
       <el-table-column label="状态" align="center" prop="status">
         <template #default="scope">
