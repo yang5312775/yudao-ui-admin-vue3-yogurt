@@ -106,7 +106,7 @@
       <el-table-column align="center" label="操作">
         <template #default="scope">
           <el-button
-            v-hasPermi="['system:dict:update']"
+            v-hasPermi="['/system/dict/update']"
             link
             type="primary"
             @click="openForm('update', scope.row.id)"
@@ -117,7 +117,7 @@
             <el-button link type="primary">数据</el-button>
           </router-link>
           <el-button
-            v-hasPermi="['system:dict:delete']"
+            v-hasPermi="['/system/dict/delete']"
             link
             type="danger"
             @click="handleDelete(scope.row.id)"

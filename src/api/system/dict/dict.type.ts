@@ -11,7 +11,7 @@ export type DictTypeVO = {
 
 // 查询字典（精简)列表
 export const getSimpleDictTypeList = () => {
-  return request.get({ url: '/system/dict-type/list-all-simple' })
+  return request.get({ url: '/infra/dict/data/listAll' })
 }
 
 // 查询字典列表
