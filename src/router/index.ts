@@ -15,7 +15,7 @@ const routesaa = [
 // 创建路由实例
 const router = createRouter({
   history: createWebHistory(), // createWebHashHistory URL带#，createWebHistory URL不带#
-  strict: true,
+  strict: false,
   routes: routesaa as RouteRecordRaw[],
   scrollBehavior: () => ({ left: 0, top: 0 })
 })

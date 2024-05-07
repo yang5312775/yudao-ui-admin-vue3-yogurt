@@ -5,7 +5,7 @@ export type DictTypeVO = {
   name: string
   type: string
   status: number
-  remark: string
+  description: string
   createTime: Date
 }
 
@@ -26,17 +26,17 @@ export const getDictType = (id: number) => {
 
 // 新增字典
 export const createDictType = (data: DictTypeVO) => {
-  return request.post({ url: '/system/dict-type/create', data })
+  return request.post({ url: '/infra/dict/insert', data })
 }
 
 // 修改字典
 export const updateDictType = (data: DictTypeVO) => {
-  return request.put({ url: '/system/dict-type/update', data })
+  return request.put({ url: '/infra/dict/update', data })
 }
 
 // 删除字典
 export const deleteDictType = (id: number) => {
-  return request.delete({ url: '/system/dict-type/delete?id=' + id })
+  return request.delete({ url: '/infra/dict/delete?id=' + id })
 }
 // 导出字典类型
 export const exportDictType = (params) => {

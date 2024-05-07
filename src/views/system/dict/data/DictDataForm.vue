@@ -7,13 +7,13 @@
       :rules="formRules"
       label-width="80px"
     >
-      <el-form-item label="字典类型" prop="type">
+      <!-- <el-form-item label="字典类型" prop="dictType">
         <el-input
           v-model="formData.dictType"
           :disabled="typeof formData.id !== 'undefined'"
           placeholder="请输入参数名称"
         />
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="数据标签" prop="label">
         <el-input v-model="formData.label" placeholder="请输入数据标签" />
       </el-form-item>
@@ -34,7 +34,7 @@
           </el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="颜色类型" prop="colorType">
+      <!-- <el-form-item label="颜色类型" prop="colorType">
         <el-select v-model="formData.colorType">
           <el-option
             v-for="item in colorTypeOptions"
@@ -43,13 +43,13 @@
             :value="item.value"
           />
         </el-select>
-      </el-form-item>
-      <el-form-item label="CSS Class" prop="cssClass">
+      </el-form-item> -->
+      <!-- <el-form-item label="CSS Class" prop="cssClass">
         <el-input v-model="formData.cssClass" placeholder="请输入 CSS Class" />
       </el-form-item>
       <el-form-item label="备注" prop="remark">
         <el-input v-model="formData.remark" placeholder="请输入内容" type="textarea" />
-      </el-form-item>
+      </el-form-item> -->
     </el-form>
     <template #footer>
       <el-button :disabled="formLoading" type="primary" @click="submitForm">确 定</el-button>
@@ -76,7 +76,7 @@ const formData = ref({
   sort: undefined,
   label: '',
   value: '',
-  dictType: '',
+  dictId: '',
   status: CommonStatusEnum.ENABLE,
   colorType: '',
   cssClass: '',
@@ -119,13 +119,13 @@ const colorTypeOptions = readonly([
 ])
 
 /** 打开弹窗 */
-const open = async (type: string, id?: number, dictType?: string) => {
+const open = async (type: string, id?: number, dictId?: string) => {
   dialogVisible.value = true
   dialogTitle.value = t('action.' + type)
   formType.value = type
   resetForm()
-  if (dictType) {
-    formData.value.dictType = dictType
+  if (dictId) {
+    formData.value.dictId = dictId
   }
   // 修改时，设置数据
   if (id) {

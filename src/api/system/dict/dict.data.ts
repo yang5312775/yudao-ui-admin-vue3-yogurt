@@ -30,17 +30,17 @@ export const getDictData = (id: number) => {
 
 // 新增字典数据
 export const createDictData = (data: DictDataVO) => {
-  return request.post({ url: '/system/dict-data/create', data })
+  return request.post({ url: '/infra/dict/data/insert', data })
 }
 
 // 修改字典数据
 export const updateDictData = (data: DictDataVO) => {
-  return request.put({ url: '/system/dict-data/update', data })
+  return request.put({ url: '/infra/dict/data/update', data })
 }
 
 // 删除字典数据
 export const deleteDictData = (id: number) => {
-  return request.delete({ url: '/system/dict-data/delete?id=' + id })
+  return request.delete({ url: '/infra/dict/data/delete?id=' + id })
 }
 
 // 导出字典类型数据

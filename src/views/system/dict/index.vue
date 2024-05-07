@@ -62,7 +62,7 @@
           重置
         </el-button>
         <el-button
-          v-hasPermi="['system:dict:create']"
+          v-hasPermi="['/system/dict/insert']"
           plain
           type="primary"
           @click="openForm('create')"
@@ -109,11 +109,11 @@
             v-hasPermi="['/system/dict/update']"
             link
             type="primary"
-            @click="openForm('update', scope.row.id)"
+            @click="openForm('update', scope.row)"
           >
             修改
           </el-button>
-          <router-link :to="'/dict/type/data/' + scope.row.type">
+          <router-link :to="'/dict/type/data/' + scope.row.id">
             <el-button link type="primary">数据</el-button>
           </router-link>
           <el-button

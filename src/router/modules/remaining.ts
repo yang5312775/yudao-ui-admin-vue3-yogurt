@@ -113,9 +113,9 @@ const remainingRouter: AppRouteRecordRaw[] = [
     },
     children: [
       {
-        path: 'type/data/:dictType',
+        path: 'type/data/:dictId',
         component: () => import('@/views/system/dict/data/index.vue'),
-        name: 'SystemDictData',
+        name: 'SystemDictData2',
         meta: {
           title: '字典数据',
           noCache: true,

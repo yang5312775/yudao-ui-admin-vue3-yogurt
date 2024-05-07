@@ -9,7 +9,7 @@ export function hasPermi(app: App<Element>) {
     const { value } = binding
     const all_permission = '*:*:*'
     const permissions = wsCache.get(CACHE_KEY.USER).permissions
-    console.log("###############" , permissions);
+    //console.log("###############" , permissions);
     if (value && value instanceof Array && value.length > 0) {
       const permissionFlag = value
 

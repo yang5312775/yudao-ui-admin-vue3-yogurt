@@ -28,8 +28,8 @@
           </el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="备注" prop="remark">
-        <el-input v-model="formData.remark" placeholder="请输入内容" type="textarea" />
+      <el-form-item label="备注" prop="description">
+        <el-input v-model="formData.description" placeholder="请输入内容" type="textarea" />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -57,7 +57,7 @@ const formData = ref({
   name: '',
   type: '',
   status: CommonStatusEnum.ENABLE,
-  remark: ''
+  description: ''
 })
 const formRules = reactive({
   name: [{ required: true, message: '字典名称不能为空', trigger: 'blur' }],
@@ -67,19 +67,14 @@ const formRules = reactive({
 const formRef = ref() // 表单 Ref
 
 /** 打开弹窗 */
-const open = async (type: string, id?: number) => {
+const open = async (type: string, data) => {
   dialogVisible.value = true
   dialogTitle.value = t('action.' + type)
   formType.value = type
   resetForm()
-  // 修改时，设置数据
-  if (id) {
-    formLoading.value = true
-    try {
-      formData.value = await DictTypeApi.getDictType(id)
-    } finally {
-      formLoading.value = false
-    }
+  // 如果提供了数据，则直接使用
+  if (data) {
+    formData.value = data
   }
 }
 defineExpose({ open }) // 提供 open 方法，用于打开弹窗
@@ -117,7 +112,7 @@ const resetForm = () => {
     type: '',
     name: '',
     status: CommonStatusEnum.ENABLE,
-    remark: ''
+    description: ''
   }
   formRef.value?.resetFields()
 }

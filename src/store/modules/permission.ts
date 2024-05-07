@@ -54,6 +54,7 @@ export const usePermissionStore = defineStore('permission', {
         ])
         //用户授权路由
         const authRouter = filterAccessibleRoutes(bizRouter , convertPathsToComponentNames(userStore.permissions)).concat(routerMap) 
+        console.log("final auth router :" , authRouter);
         // 渲染菜单的所有路由
         this.routers = cloneDeep(remainingRouter).concat(authRouter)
         resolve()
@@ -72,7 +73,7 @@ function convertPathsToComponentNames(paths) {
     const componentName = parts.map(part => capitalize(part)).join(''); // 将每个部分转换为组件名称
     return componentName;
   });
-  console.log("###" , componentNames);
+  //console.log("###" , componentNames);
   return componentNames;
 }
 
@@ -86,18 +87,19 @@ const filterAccessibleRoutes = (routes: AppRouteRecordRaw[], permissions: string
   const accessibleRoutes: AppRouteRecordRaw[] = [];
 
   routes.forEach(route => {
-    console.log("route" , route)
-    console.log("route path" , route.name)
+    //console.log("route" , route)
+    //console.log("route path" , route.name)
     if (permissions.includes(route.name)) {
       const newRoute: AppRouteRecordRaw = { ...route }; // 显式指定 newRoute 的类型为 AppRouteRecordRaw
       if (route.children) {
         const accessibleChildren = filterAccessibleRoutes(route.children, permissions); // 递归处理子路由
         newRoute.children = accessibleChildren;
       }
+      console.log("route " , newRoute.name , " pass auth ,insert to router")
       accessibleRoutes.push(newRoute);
     }
   });
-  console.log(accessibleRoutes)
+  //console.log(accessibleRoutes)
   return accessibleRoutes;
 };
 

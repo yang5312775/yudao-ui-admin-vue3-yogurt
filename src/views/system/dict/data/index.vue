@@ -7,7 +7,7 @@
       :inline="true"
       label-width="68px"
     >
-      <el-form-item label="字典名称" prop="dictType">
+      <!-- <el-form-item label="字典名称" prop="dictType">
         <el-select v-model="queryParams.dictType" class="!w-240px">
           <el-option
             v-for="item in dictTypeList"
@@ -16,7 +16,7 @@
             :value="item.type"
           />
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="字典标签" prop="label">
         <el-input
           v-model="queryParams.label"
@@ -43,7 +43,7 @@
           type="primary"
           plain
           @click="openForm('create')"
-          v-hasPermi="['system:dict:create']"
+          v-hasPermi="['/system/dict/data/insert']"
         >
           <Icon icon="ep:plus" class="mr-5px" /> 新增
         </el-button>
@@ -85,7 +85,7 @@
             link
             type="primary"
             @click="openForm('update', scope.row.id)"
-            v-hasPermi="['system:dict:update']"
+            v-hasPermi="['/system/dict/data/update']"
           >
             修改
           </el-button>
@@ -93,7 +93,7 @@
             link
             type="danger"
             @click="handleDelete(scope.row.id)"
-            v-hasPermi="['system:dict:delete']"
+            v-hasPermi="['/system/dict/data/delete']"
           >
             删除
           </el-button>
@@ -134,7 +134,7 @@ const queryParams = reactive({
   pageSize: 10,
   label: '',
   status: undefined,
-  dictCode: route.params.dictType
+  dictId: route.params.dictId
 })
 const queryFormRef = ref() // 搜索的表单
 const exportLoading = ref(false) // 导出的加载中
@@ -167,7 +167,7 @@ const resetQuery = () => {
 /** 添加/修改操作 */
 const formRef = ref()
 const openForm = (type: string, id?: number) => {
-  formRef.value.open(type, id, queryParams.dictCode)
+  formRef.value.open(type, id, queryParams.dictId)
 }
 
 /** 删除按钮操作 */
