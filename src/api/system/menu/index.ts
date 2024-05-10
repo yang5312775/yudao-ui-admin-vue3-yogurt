@@ -25,7 +25,7 @@ export const getSimpleMenusList = () => {
 
 // 查询菜单列表
 export const getMenuList = (params) => {
-  return request.get({ url: '/system/menu/list', params })
+  return request.get({ url: '/uaa/menu/list', params })
 }
 
 // 获取菜单详情

@@ -1,7 +1,4 @@
 <template>
-  <doc-alert title="功能权限" url="https://doc.iocoder.cn/resource-permission" />
-  <doc-alert title="菜单路由" url="https://doc.iocoder.cn/vue3/route/" />
-
   <!-- 搜索工作栏 -->
   <ContentWrap>
     <el-form
@@ -73,17 +70,30 @@
       :data="list"
       :default-expand-all="isExpandAll"
       row-key="id"
+      :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
     >
       <el-table-column :show-overflow-tooltip="true" label="菜单名称" prop="name" width="250" />
-      <el-table-column align="center" label="图标" prop="icon" width="100">
+      <!-- <el-table-column align="center" label="图标" prop="icon" width="100">
         <template #default="scope">
           <Icon :icon="scope.row.icon" />
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column label="排序" prop="sort" width="60" />
-      <el-table-column :show-overflow-tooltip="true" label="权限标识" prop="permission" />
-      <el-table-column :show-overflow-tooltip="true" label="组件路径" prop="component" />
-      <el-table-column :show-overflow-tooltip="true" label="组件名称" prop="componentName" />
+      <el-table-column :show-overflow-tooltip="true" label="类型" width="100">
+        <template #default="scope">
+        <span :style="{ color: scope.row.type === 1 ? '#87CEEB' : '#90EE90' }">
+          {{ scope.row.type === 1 ? '菜单' : '按钮' }}
+        </span>
+      </template>
+      </el-table-column>
+      <el-table-column :show-overflow-tooltip="true" label="路径" prop="path" />
+      <el-table-column :show-overflow-tooltip="true" label="是否可见" >
+        <template #default="scope">
+        <span :style="{ color: scope.row.display === 1 ? 'blue' : 'red' }">
+          {{ scope.row.display === 1 ? '可见' : '不可见' }}
+        </span>
+      </template>
+      </el-table-column>
       <el-table-column label="状态" prop="status" width="80">
         <template #default="scope">
           <dict-tag :type="DICT_TYPE.COMMON_STATUS" :value="scope.row.status" />
@@ -150,8 +160,8 @@ const refreshTable = ref(true) // 重新渲染表格状态
 const getList = async () => {
   loading.value = true
   try {
-    const data = await MenuApi.getMenuList(queryParams)
-    list.value = handleTree(data)
+    list.value = await MenuApi.getMenuList(queryParams)
+    console.log("dd", JSON.stringify(list.value, null, 2))
   } finally {
     loading.value = false
   }
