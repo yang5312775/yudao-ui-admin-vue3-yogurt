@@ -42,7 +42,7 @@
           重置
         </el-button>
         <el-button
-          v-hasPermi="['system:menu:create']"
+          v-hasPermi="['/system/menu/insert']"
           plain
           type="primary"
           @click="openForm('create')"

@@ -135,7 +135,7 @@ const formData = ref({
   permission: '',
   type: SystemMenuTypeEnum.DIR,
   sort: Number(undefined),
-  parentId: 0,
+  parentId: 1,
   path: '',
   icon: '',
   component: '',
@@ -222,10 +222,7 @@ const submitForm = async () => {
 const menuTree = ref<Tree[]>([]) // 树形结构
 const getTree = async () => {
   menuTree.value = []
-  const res = await MenuApi.getSimpleMenusList()
-  let menu: Tree = { id: 0, name: '主类目', children: [] }
-  menu.children = handleTree(res)
-  menuTree.value.push(menu)
+  menuTree.value = await MenuApi.getSimpleMenusList()
 }
 
 /** 重置表单 */
@@ -236,7 +233,7 @@ const resetForm = () => {
     permission: '',
     type: SystemMenuTypeEnum.DIR,
     sort: Number(undefined),
-    parentId: 0,
+    parentId: 1,
     path: '',
     icon: '',
     component: '',
