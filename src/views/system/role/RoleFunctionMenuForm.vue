@@ -1,5 +1,5 @@
 <template>
-  <Dialog v-model="dialogVisible" title="菜单权限">
+  <Dialog v-model="dialogVisible" title="接口权限">
     <el-form ref="formRef" v-loading="formLoading" :model="formData" label-width="80px">
       <el-form-item label="角色名称">
         <el-tag>{{ formData.roleName }}</el-tag>
@@ -7,7 +7,7 @@
       <el-form-item label="角色标识">
         <el-tag>{{ formData.roleCode }}</el-tag>
       </el-form-item>
-      <el-form-item label="菜单权限">
+      <el-form-item label="接口权限">
         <el-card class="cardHeight">
           <template #header>
             全选/全不选:
@@ -47,7 +47,7 @@
 <script lang="ts" setup>
 import { defaultProps, handleTree } from '@/utils/tree'
 import * as RoleApi from '@/api/system/role'
-import * as MenuApi from '@/api/system/menu'
+import * as MenuApi from '@/api/system/function'
 import * as PermissionApi from '@/api/system/permission'
 
 defineOptions({ name: 'SystemRoleAssignMenuForm' })
@@ -61,7 +61,7 @@ const formData = ref({
   id: 0,
   roleName: '',
   roleCode: '',
-  menuIds: []
+  functionIds: []
 })
 const formRef = ref() // 表单 Ref
 const menuOptions = ref<any[]>([]) // 菜单树形结构
@@ -75,16 +75,16 @@ const open = async (row: RoleApi.RoleVO) => {
   dialogVisible.value = true
   resetForm()
   // 加载 Menu 列表。注意，必须放在前面，不然下面 setChecked 没数据节点
-  menuOptions.value = await MenuApi.getSimpleMenusList()
+  menuOptions.value = await MenuApi.getSimpleFunctionsList()
   // 设置数据
   formData.value.id = row.id
   formData.value.roleName = row.roleName
   formData.value.roleCode = row.roleCode
   formLoading.value = true
   try {
-    formData.value.menuIds = await PermissionApi.getRoleMenuList(row.id)
+    formData.value.functionIds = await PermissionApi.getRoleFunctionList(row.id)
     // 设置选中
-    formData.value.menuIds.forEach((menuId: number) => {
+    formData.value.functionIds.forEach((menuId: number) => {
       treeRef.value.setChecked(menuId, true, false)
     })
   } finally {
@@ -105,12 +105,12 @@ const submitForm = async () => {
   try {
     const data = {
       roleId: formData.value.id,
-      menuIds: [
+      functionIds: [
         ...(treeRef.value.getCheckedKeys(false) as unknown as Array<number>), // 获得当前选中节点
         ...(treeRef.value.getHalfCheckedKeys() as unknown as Array<number>) // 获得半选中的父节点
       ]
     }
-    await PermissionApi.assignRoleMenu(data)
+    await PermissionApi.assignRoleFunction(data)
     message.success(t('common.updateSuccess'))
     dialogVisible.value = false
     // 发送操作成功的事件
@@ -130,7 +130,7 @@ const resetForm = () => {
     id: 0,
     roleName: '',
     roleCode: '',
-    menuIds: []
+    functionIds: []
   }
   treeRef.value?.setCheckedNodes([])
   formRef.value?.resetFields()

@@ -73,11 +73,11 @@
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
     >
       <el-table-column :show-overflow-tooltip="true" label="菜单名称" prop="name" width="250" />
-      <!-- <el-table-column align="center" label="图标" prop="icon" width="100">
+      <el-table-column align="center" label="图标" prop="icon" width="100">
         <template #default="scope">
-          <Icon :icon="scope.row.icon" />
+          <Icon v-if="scope.row.icon" :icon="scope.row.icon" />
         </template>
-      </el-table-column> -->
+      </el-table-column>
       <el-table-column label="排序" prop="sort" width="60" />
       <el-table-column :show-overflow-tooltip="true" label="类型" width="100">
         <template #default="scope">
@@ -102,15 +102,15 @@
       <el-table-column align="center" label="操作">
         <template #default="scope">
           <el-button
-            v-hasPermi="['system:menu:update']"
+            v-hasPermi="['/system/menu/update']"
             link
             type="primary"
-            @click="openForm('update', scope.row.id)"
+            @click="openForm('update', scope.row)"
           >
             修改
           </el-button>
           <el-button
-            v-hasPermi="['system:menu:create']"
+            v-hasPermi="['/system/menu/insert']"
             link
             type="primary"
             @click="openForm('create', undefined, scope.row.id)"
@@ -118,7 +118,7 @@
             新增
           </el-button>
           <el-button
-            v-hasPermi="['system:menu:delete']"
+            v-hasPermi="['/system/menu/delete']"
             link
             type="danger"
             @click="handleDelete(scope.row.id)"
@@ -161,7 +161,7 @@ const getList = async () => {
   loading.value = true
   try {
     list.value = await MenuApi.getMenuList(queryParams)
-    console.log("dd", JSON.stringify(list.value, null, 2))
+    // console.log("dd", JSON.stringify(list.value, null, 2))
   } finally {
     loading.value = false
   }
@@ -180,8 +180,8 @@ const resetQuery = () => {
 
 /** 添加/修改操作 */
 const formRef = ref()
-const openForm = (type: string, id?: number, parentId?: number) => {
-  formRef.value.open(type, id, parentId)
+const openForm = (type: string, menu?: any, parentId?: number) => {
+  formRef.value.open(type, menu, parentId)
 }
 
 /** 展开/折叠操作 */

@@ -34,7 +34,7 @@
           </el-radio>
         </el-radio-group>
       </el-form-item>
-      <!-- <el-form-item label="颜色类型" prop="colorType">
+      <el-form-item label="颜色类型" prop="colorType">
         <el-select v-model="formData.colorType">
           <el-option
             v-for="item in colorTypeOptions"
@@ -43,7 +43,7 @@
             :value="item.value"
           />
         </el-select>
-      </el-form-item> -->
+      </el-form-item>
       <!-- <el-form-item label="CSS Class" prop="cssClass">
         <el-input v-model="formData.cssClass" placeholder="请输入 CSS Class" />
       </el-form-item>
@@ -119,7 +119,7 @@ const colorTypeOptions = readonly([
 ])
 
 /** 打开弹窗 */
-const open = async (type: string, id?: number, dictId?: string) => {
+const open = async (type: string, data?: any, dictId?: string) => {
   dialogVisible.value = true
   dialogTitle.value = t('action.' + type)
   formType.value = type
@@ -128,10 +128,10 @@ const open = async (type: string, id?: number, dictId?: string) => {
     formData.value.dictId = dictId
   }
   // 修改时，设置数据
-  if (id) {
+  if (data) {
     formLoading.value = true
     try {
-      formData.value = await DictDataApi.getDictData(id)
+      formData.value = data
     } finally {
       formLoading.value = false
     }

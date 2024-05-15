@@ -84,7 +84,11 @@
     <el-table v-loading="loading" :data="list">
       <el-table-column align="center" label="角色编号" prop="id" />
       <el-table-column align="center" label="角色名称" prop="roleName" />
-      <el-table-column align="center" label="角色类型" prop="type" />
+      <el-table-column align="center" label="角色类型" prop="roleType">
+        <template #default="scope">
+          <dict-tag :type="DICT_TYPE.SYSTEM_ROLE_TYPE" :value="scope.row.roleType" />
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="角色标识" prop="roleCode" />
       <el-table-column align="center" label="显示顺序" prop="sort" />
       <el-table-column align="center" label="备注" prop="description" />
@@ -106,7 +110,7 @@
             v-hasPermi="['/system/role/update']"
             link
             type="primary"
-            @click="openForm('update', scope.row.id)"
+            @click="openForm('update', scope.row)"
           >
             编辑
           </el-button>
@@ -126,9 +130,9 @@
             preIcon="ep:coin"
             title="接口权限"
             type="primary"
-            @click="openDataPermissionForm(scope.row)"
+            @click="openFunctionPermissionForm(scope.row)"
           >
-            数据权限
+            接口权限
           </el-button>
           <el-button
             v-hasPermi="['/system/role/delete']"
@@ -155,7 +159,7 @@
   <!-- 表单弹窗：菜单权限 -->
   <RoleAssignMenuForm ref="assignMenuFormRef" @success="getList" />
   <!-- 表单弹窗：数据权限 -->
-  <RoleDataPermissionForm ref="dataPermissionFormRef" @success="getList" />
+  <RoleFunctionPermissionForm ref="functionPermissionFormRef" @success="getList" />
 </template>
 <script lang="ts" setup>
 import { DICT_TYPE, getIntDictOptions } from '@/utils/dict'
@@ -164,7 +168,7 @@ import download from '@/utils/download'
 import * as RoleApi from '@/api/system/role'
 import RoleForm from './RoleForm.vue'
 import RoleAssignMenuForm from './RoleAssignMenuForm.vue'
-import RoleDataPermissionForm from './RoleDataPermissionForm.vue'
+import RoleFunctionPermissionForm from './RoleFunctionMenuForm.vue'
 
 defineOptions({ name: 'SystemRole' })
 
@@ -211,14 +215,14 @@ const resetQuery = () => {
 
 /** 添加/修改操作 */
 const formRef = ref()
-const openForm = (type: string, id?: number) => {
-  formRef.value.open(type, id)
+const openForm = (type: string, role?: number) => {
+  formRef.value.open(type, role)
 }
 
-/** 数据权限操作 */
-const dataPermissionFormRef = ref()
-const openDataPermissionForm = async (row: RoleApi.RoleVO) => {
-  dataPermissionFormRef.value.open(row)
+/** 接口权限操作 */
+const functionPermissionFormRef = ref()
+const openFunctionPermissionForm = async (row: RoleApi.RoleVO) => {
+  functionPermissionFormRef.value.open(row)
 }
 
 /** 菜单权限操作 */

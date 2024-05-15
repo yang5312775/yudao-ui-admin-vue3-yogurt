@@ -7,11 +7,21 @@
       :rules="formRules"
       label-width="80px"
     >
-      <el-form-item label="角色名称" prop="name">
-        <el-input v-model="formData.name" placeholder="请输入角色名称" />
+      <el-form-item label="角色名称" prop="roleName">
+        <el-input v-model="formData.roleName" placeholder="请输入角色名称" />
       </el-form-item>
-      <el-form-item label="角色标识" prop="code">
-        <el-input v-model="formData.code" placeholder="请输入角色标识" />
+      <el-form-item label="角色类型" prop="roleType">
+        <el-select v-model="formData.roleType" clearable placeholder="请选择角色类型">
+          <el-option
+            v-for="dict in getIntDictOptions(DICT_TYPE.SYSTEM_ROLE_TYPE)"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="角色标识" prop="roleCode">
+        <el-input v-model="formData.roleCode" placeholder="请输入角色标识" />
       </el-form-item>
       <el-form-item label="显示顺序" prop="sort">
         <el-input v-model="formData.sort" placeholder="请输入显示顺序" />
@@ -26,8 +36,8 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="备注" prop="remark">
-        <el-input v-model="formData.remark" placeholder="请输备注" type="textarea" />
+      <el-form-item label="备注" prop="description">
+        <el-input v-model="formData.description" placeholder="请输备注" type="textarea" />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -52,32 +62,33 @@ const formLoading = ref(false) // 表单的加载中：1）修改时的数据加
 const formType = ref('') // 表单的类型：create - 新增；update - 修改
 const formData = ref({
   id: undefined,
-  name: '',
-  code: '',
+  roleName: '',
+  roleCode: '',
+  roleType: undefined,
   sort: undefined,
   status: CommonStatusEnum.ENABLE,
-  remark: ''
+  description: ''
 })
 const formRules = reactive({
-  name: [{ required: true, message: '角色名称不能为空', trigger: 'blur' }],
-  code: [{ required: true, message: '角色标识不能为空', trigger: 'change' }],
+  roleName: [{ required: true, message: '角色名称不能为空', trigger: 'blur' }],
+  roleCode: [{ required: true, message: '角色标识不能为空', trigger: 'change' }],
   sort: [{ required: true, message: '显示顺序不能为空', trigger: 'change' }],
   status: [{ required: true, message: '状态不能为空', trigger: 'change' }],
-  remark: [{ required: false, message: '备注不能为空', trigger: 'blur' }]
+  description: [{ required: false, message: '备注不能为空', trigger: 'blur' }]
 })
 const formRef = ref() // 表单 Ref
 
 /** 打开弹窗 */
-const open = async (type: string, id?: number) => {
+const open = async (type: string, role?: any) => {
   dialogVisible.value = true
   dialogTitle.value = t('action.' + type)
   formType.value = type
   resetForm()
   // 修改时，设置数据
-  if (id) {
+  if (role) {
     formLoading.value = true
     try {
-      formData.value = await RoleApi.getRole(id)
+      formData.value = role
     } finally {
       formLoading.value = false
     }
@@ -88,11 +99,12 @@ const open = async (type: string, id?: number) => {
 const resetForm = () => {
   formData.value = {
     id: undefined,
-    name: '',
-    code: '',
+    roleName: '',
+    roleCode: '',
+    roleType: undefined,
     sort: undefined,
     status: CommonStatusEnum.ENABLE,
-    remark: ''
+    description: ''
   }
   formRef.value?.resetFields()
 }

@@ -2,8 +2,8 @@ import request from '@/config/axios'
 
 export interface RoleVO {
   id: number
-  name: string
-  code: string
+  roleName: string
+  roleCode: string
   sort: number
   status: number
   type: number
@@ -34,12 +34,12 @@ export const getRole = async (id: number) => {
 
 // 新增角色
 export const createRole = async (data: RoleVO) => {
-  return await request.post({ url: '/system/role/create', data })
+  return await request.post({ url: '/uaa/role/insertRole', data })
 }
 
 // 修改角色
 export const updateRole = async (data: RoleVO) => {
-  return await request.put({ url: '/system/role/update', data })
+  return await request.put({ url: '/uaa/role/updateRole', data })
 }
 
 // 修改角色状态
@@ -49,7 +49,7 @@ export const updateRoleStatus = async (data: UpdateStatusReqVO) => {
 
 // 删除角色
 export const deleteRole = async (id: number) => {
-  return await request.delete({ url: '/system/role/delete?id=' + id })
+  return await request.delete({ url: '/uaa/role/deleteRole?id=' + id })
 }
 
 // 导出角色

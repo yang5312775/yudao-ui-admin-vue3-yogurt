@@ -43,13 +43,13 @@
         </template>
         <el-input v-model="formData.path" clearable placeholder="请输入路由地址" />
       </el-form-item>
-      <el-form-item v-if="formData.type === 2" label="组件地址" prop="component">
+      <!-- <el-form-item v-if="formData.type === 2" label="组件地址" prop="component">
         <el-input v-model="formData.component" clearable placeholder="例如说：system/user/index" />
       </el-form-item>
       <el-form-item v-if="formData.type === 2" label="组件名字" prop="componentName">
         <el-input v-model="formData.componentName" clearable placeholder="例如说：SystemUser" />
-      </el-form-item>
-      <el-form-item v-if="formData.type !== 1" label="权限标识" prop="permission">
+      </el-form-item> -->
+      <!-- <el-form-item v-if="formData.type !== 1" label="权限标识" prop="permission">
         <template #label>
           <Tooltip
             message="Controller 方法上的权限字符，如：@PreAuthorize(`@ss.hasPermission('system:user:list')`)"
@@ -57,7 +57,7 @@
           />
         </template>
         <el-input v-model="formData.permission" clearable placeholder="请输入权限标识" />
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="显示排序" prop="sort">
         <el-input-number v-model="formData.sort" :min="0" clearable controls-position="right" />
       </el-form-item>
@@ -76,12 +76,12 @@
         <template #label>
           <Tooltip message="选择隐藏时，路由将不会出现在侧边栏，但仍然可以访问" title="显示状态" />
         </template>
-        <el-radio-group v-model="formData.visible">
-          <el-radio key="true" :label="true" border>显示</el-radio>
-          <el-radio key="false" :label="false" border>隐藏</el-radio>
+        <el-radio-group v-model="formData.display">
+          <el-radio key="true" :label=1 border>显示</el-radio>
+          <el-radio key="false" :label=0 border>隐藏</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item v-if="formData.type !== 3" label="总是显示" prop="alwaysShow">
+      <!-- <el-form-item v-if="formData.type !== 3" label="总是显示" prop="alwaysShow">
         <template #label>
           <Tooltip
             message="选择不是时，当该菜单只有一个子菜单时，不展示自己，直接展示子菜单"
@@ -92,8 +92,8 @@
           <el-radio key="true" :label="true" border>总是</el-radio>
           <el-radio key="false" :label="false" border>不是</el-radio>
         </el-radio-group>
-      </el-form-item>
-      <el-form-item v-if="formData.type === 2" label="缓存状态" prop="keepAlive">
+      </el-form-item> -->
+      <!-- <el-form-item v-if="formData.type === 2" label="缓存状态" prop="keepAlive">
         <template #label>
           <Tooltip
             message="选择缓存时，则会被 `keep-alive` 缓存，必须填写「组件名称」字段"
@@ -104,7 +104,7 @@
           <el-radio key="true" :label="true" border>缓存</el-radio>
           <el-radio key="false" :label="false" border>不缓存</el-radio>
         </el-radio-group>
-      </el-form-item>
+      </el-form-item> -->
     </el-form>
     <template #footer>
       <el-button :disabled="formLoading" type="primary" @click="submitForm">确 定</el-button>
@@ -132,18 +132,13 @@ const formType = ref('') // 表单的类型：create - 新增；update - 修改
 const formData = ref({
   id: 0,
   name: '',
-  permission: '',
   type: SystemMenuTypeEnum.DIR,
   sort: Number(undefined),
-  parentId: 1,
+  parentId: null,
   path: '',
   icon: '',
-  component: '',
-  componentName: '',
   status: CommonStatusEnum.ENABLE,
-  visible: true,
-  keepAlive: true,
-  alwaysShow: true
+  display: 1
 })
 const formRules = reactive({
   name: [{ required: true, message: '菜单名称不能为空', trigger: 'blur' }],
@@ -154,19 +149,26 @@ const formRules = reactive({
 const formRef = ref() // 表单 Ref
 
 /** 打开弹窗 */
-const open = async (type: string, id?: number, parentId?: number) => {
+const open = async (type: string, menu?: any, parentId?: number) => {
   dialogVisible.value = true
   dialogTitle.value = t('action.' + type)
   formType.value = type
   resetForm()
   if (parentId) {
     formData.value.parentId = parentId
+  }else{
+    formData.value.parentId = null
   }
+
   // 修改时，设置数据
-  if (id) {
+  if (menu) {
     formLoading.value = true
     try {
-      formData.value = await MenuApi.getMenu(id)
+      formData.value = menu
+      console.log("@@@" , formData.value)
+      if(formData.value.parentId == 0){
+        formData.value.parentId = null
+      }
     } finally {
       formLoading.value = false
     }
@@ -186,20 +188,6 @@ const submitForm = async () => {
   // 提交请求
   formLoading.value = true
   try {
-    if (
-      formData.value.type === SystemMenuTypeEnum.DIR ||
-      formData.value.type === SystemMenuTypeEnum.MENU
-    ) {
-      if (!isExternal(formData.value.path)) {
-        if (formData.value.parentId === 0 && formData.value.path.charAt(0) !== '/') {
-          message.error('路径必须以 / 开头')
-          return
-        } else if (formData.value.parentId !== 0 && formData.value.path.charAt(0) === '/') {
-          message.error('路径不能以 / 开头')
-          return
-        }
-      }
-    }
     const data = formData.value as unknown as MenuApi.MenuVO
     if (formType.value === 'create') {
       await MenuApi.createMenu(data)
@@ -230,18 +218,13 @@ const resetForm = () => {
   formData.value = {
     id: 0,
     name: '',
-    permission: '',
     type: SystemMenuTypeEnum.DIR,
     sort: Number(undefined),
-    parentId: 1,
+    parentId: null,
     path: '',
     icon: '',
-    component: '',
-    componentName: '',
     status: CommonStatusEnum.ENABLE,
-    visible: true,
-    keepAlive: true,
-    alwaysShow: true
+    display: 1
   }
   formRef.value?.resetFields()
 }

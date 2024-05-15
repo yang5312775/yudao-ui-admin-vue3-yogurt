@@ -35,15 +35,15 @@ export const getMenu = (id: number) => {
 
 // 新增菜单
 export const createMenu = (data: MenuVO) => {
-  return request.post({ url: '/system/menu/create', data })
+  return request.post({ url: '/uaa/menu/insert', data })
 }
 
 // 修改菜单
 export const updateMenu = (data: MenuVO) => {
-  return request.put({ url: '/system/menu/update', data })
+  return request.put({ url: '/uaa/menu/update', data })
 }
 
 // 删除菜单
 export const deleteMenu = (id: number) => {
-  return request.delete({ url: '/system/menu/delete?id=' + id })
+  return request.delete({ url: '/uaa/menu/delete?id=' + id })
 }

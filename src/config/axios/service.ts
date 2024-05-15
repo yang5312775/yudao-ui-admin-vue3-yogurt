@@ -109,7 +109,8 @@ service.interceptors.response.use(
     }
     const code = data.code || result_code
     // 获取错误信息
-    const msg = data.errInfo || errorCode[code] || errorCode['default']
+    //console.log("message:" + data.message)
+    const msg = data.message || errorCode[code] || errorCode['default']
     if (ignoreMsgs.indexOf(msg) !== -1) {
       // 如果是忽略的错误码，直接返回 msg 异常
       return Promise.reject(msg)
@@ -171,11 +172,14 @@ service.interceptors.response.use(
       })
       return Promise.reject(new Error(msg))
     } else if (code !== '000000') {
+      //console.log("response error code: "  + code)
       if (msg === '无效的刷新令牌') {
         // hard coding：忽略这个提示，直接登出
         console.log(msg)
       } else {
-        ElNotification.error({ title: msg })
+        //console.log("response error msg: "  + msg)
+        //ElNotification.error({ title: msg })
+        ElMessage.error(msg)
       }
       return Promise.reject('error')
     } else {
@@ -186,6 +190,23 @@ service.interceptors.response.use(
     console.log('err' + error) // for debug
     let { message } = error
     const { t } = useI18n()
+    if (error.response) {
+      // 获取 HTTP 状态码
+      const status = error.response.status;
+
+      // 根据状态码做出相应的处理
+      if (status === 401) {
+        // 如果是 401 错误，跳转到登录页面
+        handleAuthorized()
+        
+      } else if( status === 403){
+        message = "禁止访问！！！！"
+      }
+    } else {
+      // 这里处理没有 response 属性的情况，如网络错误或者请求被取消
+      console.error('Error:', error.message);
+    }
+   
     if (message === 'Network Error') {
       message = t('sys.api.errorMessage')
     } else if (message.includes('timeout')) {

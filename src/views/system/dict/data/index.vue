@@ -67,6 +67,7 @@
       <el-table-column label="字典标签" align="center" prop="label" />
       <el-table-column label="字典键值" align="center" prop="value" />
       <el-table-column label="字典排序" align="center" prop="sort" />
+      <el-table-column label="颜色类型" align="center" prop="colorType" />
       <el-table-column label="状态" align="center" prop="status">
         <template #default="scope">
           <dict-tag :type="DICT_TYPE.COMMON_STATUS" :value="scope.row.status" />
@@ -84,7 +85,7 @@
           <el-button
             link
             type="primary"
-            @click="openForm('update', scope.row.id)"
+            @click="openForm('update', scope.row)"
             v-hasPermi="['/system/dict/data/update']"
           >
             修改
@@ -119,6 +120,7 @@ import download from '@/utils/download'
 import * as DictDataApi from '@/api/system/dict/dict.data'
 import * as DictTypeApi from '@/api/system/dict/dict.type'
 import DictDataForm from './DictDataForm.vue'
+import { dataTool } from 'echarts'
 
 defineOptions({ name: 'SystemDictData' })
 
@@ -166,8 +168,8 @@ const resetQuery = () => {
 
 /** 添加/修改操作 */
 const formRef = ref()
-const openForm = (type: string, id?: number) => {
-  formRef.value.open(type, id, queryParams.dictId)
+const openForm = (type: string, data?: number) => {
+  formRef.value.open(type, data, queryParams.dictId)
 }
 
 /** 删除按钮操作 */
