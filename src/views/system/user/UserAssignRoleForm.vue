@@ -8,8 +8,8 @@
         <el-input v-model="formData.nickname" :disabled="true" />
       </el-form-item>
       <el-form-item label="角色">
-        <el-select v-model="formData.roleIds" multiple placeholder="请选择角色">
-          <el-option v-for="item in roleList" :key="item.id" :label="item.name" :value="item.id" />
+        <el-select v-model="formData.roleId"  placeholder="请选择角色">
+          <el-option v-for="item in roleList" :key="item.id" :label="item.roleName" :value="item.id" />
         </el-select>
       </el-form-item>
     </el-form>
@@ -35,28 +35,29 @@ const formData = ref({
   id: -1,
   nickname: '',
   username: '',
-  roleIds: []
+  roleId: undefined
 })
 const formRef = ref() // 表单 Ref
 const roleList = ref([] as RoleApi.RoleVO[]) // 角色的列表
 
 /** 打开弹窗 */
 const open = async (row: UserApi.UserVO) => {
+  console.log("row" , row)
   dialogVisible.value = true
   resetForm()
   // 设置数据
   formData.value.id = row.id
-  formData.value.username = row.username
-  formData.value.nickname = row.nickname
+  formData.value.username = row.userName
+  formData.value.nickname = row.nickName
   // 获得角色拥有的菜单集合
   formLoading.value = true
+   // 获得角色列表
+   roleList.value = await RoleApi.getSimpleRoleList()
   try {
-    formData.value.roleIds = await PermissionApi.getUserRoleList(row.id)
+    formData.value.roleId = await PermissionApi.getUserRole(row.id)
   } finally {
     formLoading.value = false
   }
-  // 获得角色列表
-  roleList.value = await RoleApi.getSimpleRoleList()
 }
 defineExpose({ open }) // 提供 open 方法，用于打开弹窗
 
@@ -72,7 +73,7 @@ const submitForm = async () => {
   try {
     await PermissionApi.assignUserRole({
       userId: formData.value.id,
-      roleIds: formData.value.roleIds
+      roleId: formData.value.roleId
     })
     message.success(t('common.updateSuccess'))
     dialogVisible.value = false
@@ -89,7 +90,7 @@ const resetForm = () => {
     id: -1,
     nickname: '',
     username: '',
-    roleIds: []
+    roleId: undefined
   }
   formRef.value?.resetFields()
 }

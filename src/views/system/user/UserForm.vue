@@ -9,20 +9,30 @@
     >
       <el-row>
         <el-col :span="12">
-          <el-form-item label="用户昵称" prop="nickname">
-            <el-input v-model="formData.nickname" placeholder="请输入用户昵称" />
+          <el-form-item v-if="formData.id === undefined" label="用户账号" prop="userName">
+            <el-input v-model="formData.userName" placeholder="请输入用户账号" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="归属部门" prop="deptId">
-            <el-tree-select
-              v-model="formData.deptId"
-              :data="deptList"
-              :props="defaultProps"
-              check-strictly
-              node-key="id"
-              placeholder="请选择归属部门"
+          <el-form-item v-if="formData.id === undefined" label="用户密码" prop="password">
+            <el-input
+              v-model="formData.password"
+              placeholder="请输入用户密码"
+              show-password
+              type="password"
             />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="真实姓名" prop="realName">
+            <el-input v-model="formData.realName" placeholder="请输入用户真实姓名" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="用户昵称" prop="nickname">
+            <el-input v-model="formData.nickname" placeholder="请输入用户昵称" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -40,23 +50,6 @@
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item v-if="formData.id === undefined" label="用户名称" prop="username">
-            <el-input v-model="formData.username" placeholder="请输入用户名称" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item v-if="formData.id === undefined" label="用户密码" prop="password">
-            <el-input
-              v-model="formData.password"
-              placeholder="请输入用户密码"
-              show-password
-              type="password"
-            />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="12">
           <el-form-item label="用户性别">
             <el-select v-model="formData.sex" placeholder="请选择">
               <el-option
@@ -64,18 +57,6 @@
                 :key="dict.value"
                 :label="dict.label"
                 :value="dict.value"
-              />
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="岗位">
-            <el-select v-model="formData.postIds" multiple placeholder="请选择">
-              <el-option
-                v-for="item in postList"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id!"
               />
             </el-select>
           </el-form-item>
@@ -165,10 +146,7 @@ const open = async (type: string, id?: number) => {
       formLoading.value = false
     }
   }
-  // 加载部门树
-  deptList.value = handleTree(await DeptApi.getSimpleDeptList())
-  // 加载岗位列表
-  postList.value = await PostApi.getSimplePostList()
+
 }
 defineExpose({ open }) // 提供 open 方法，用于打开弹窗
 

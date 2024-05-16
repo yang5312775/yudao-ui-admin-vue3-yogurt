@@ -94,7 +94,7 @@
         <el-table v-loading="loading" :data="list">
           <el-table-column label="用户编号" align="center" key="id" prop="id" />
           <el-table-column
-            label="用户名称"
+            label="用户账号"
             align="center"
             prop="userName"
             :show-overflow-tooltip="true"

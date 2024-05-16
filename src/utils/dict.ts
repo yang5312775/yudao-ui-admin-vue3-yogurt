@@ -104,8 +104,10 @@ export enum DICT_TYPE {
   USER_TYPE = 'user_type',
   COMMON_STATUS = 'DICT_OPEN_CLOSE',
   TERMINAL = 'terminal', // 终端
+  COMMON_ENABLE = 'DICT_ENABLE',
 
   // ========== SYSTEM 模块 ==========
+  SYSTEM_FUNCTION_TYPE = 'DICT_FUNCTION_TYPE',
   SYSTEM_USER_SEX = 'system_user_sex',
   SYSTEM_MENU_TYPE = 'DICT_MENU_TYPE',
   SYSTEM_ROLE_TYPE = 'DICT_ROLE_TYPE',

@@ -101,6 +101,18 @@ const bizRouter: AppRouteRecordRaw[] = [
           title: '字典管理',
           activeMenu: '/system'
         }
+      },
+      {
+        path: 'function',
+        component: () => import('@/views/system/function/index.vue'),
+        name: 'SystemFunction',
+        meta: {
+          noCache: true,
+          hidden: false,
+          canTo: true,
+          title: '接口管理',
+          activeMenu: '/system'
+        }
       }
     ]
   },

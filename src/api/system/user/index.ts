@@ -2,8 +2,8 @@ import request from '@/config/axios'
 
 export interface UserVO {
   id: number
-  username: string
-  nickname: string
+  userName: string
+  nickName: string
   deptId: number
   postIds: string[]
   email: string

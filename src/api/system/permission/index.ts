@@ -2,7 +2,7 @@ import request from '@/config/axios'
 
 export interface PermissionAssignUserRoleReqVO {
   userId: number
-  roleIds: number[]
+  roleId: number
 }
 
 export interface PermissionAssignRoleMenuReqVO {
@@ -47,11 +47,11 @@ export const assignRoleDataScope = async (data: PermissionAssignRoleDataScopeReq
 }
 
 // 查询用户拥有的角色数组
-export const getUserRoleList = async (userId: number) => {
-  return await request.get({ url: '/system/permission/list-user-roles?userId=' + userId })
+export const getUserRole = async (userId: number) => {
+  return await request.get({ url: '/uaa/role/getUserRoleInAOrg?userId=' + userId })
 }
 
 // 赋予用户角色
 export const assignUserRole = async (data: PermissionAssignUserRoleReqVO) => {
-  return await request.post({ url: '/system/permission/assign-user-role', data })
+  return await request.post({ url: '/uaa/permission/assignUserRoleInAOrg', data })
 }
