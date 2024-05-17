@@ -26,4 +26,9 @@ export const updateTokenStatus = (data: FunctionVO) => {
   return request.put({ url: '/uaa/function/updateTokenStatus', data })
 }
 
+// 修改菜单
+export const updateFunctionName = (data: FunctionVO) => {
+  return request.put({ url: '/uaa/function/updateFunctionName', data })
+}
+
 

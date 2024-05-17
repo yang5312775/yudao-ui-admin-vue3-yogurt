@@ -129,7 +129,7 @@
                 <el-button
                   type="primary"
                   link
-                  @click="openForm('update', scope.row.id)"
+                  @click="openForm('update', scope.row)"
                   v-hasPermi="['/system/user/update']"
                 >
                   <Icon icon="ep:edit" />修改
@@ -250,7 +250,7 @@ const handleDeptNodeClick = async (row) => {
 
 /** 添加/修改操作 */
 const formRef = ref()
-const openForm = (type: string, id?: number) => {
+const openForm = (type: string, id?: any) => {
   formRef.value.open(type, id)
 }
 
@@ -265,7 +265,7 @@ const handleStatusChange = async (row: UserApi.UserVO) => {
   try {
     // 修改状态的二次确认
     const text = row.status === CommonStatusEnum.ENABLE ? '启用' : '停用'
-    await message.confirm('确认要"' + text + '""' + row.username + '"用户吗?')
+    await message.confirm('确认要"' + text + '""' + row.userName + '"用户吗?')
     // 发起修改状态
     await UserApi.updateUserStatus(row.id, row.status)
     // 刷新列表
@@ -328,12 +328,12 @@ const handleResetPwd = async (row: UserApi.UserVO) => {
   try {
     // 重置的二次确认
     const result = await message.prompt(
-      '请输入"' + row.username + '"的新密码',
+      '请输入"' + row.userName + '"的新密码',
       t('common.reminder')
     )
     const password = result.value
     // 发起重置
-    await UserApi.resetUserPwd(row.id, password)
+    await UserApi.resetUserPwd(row.id , null ,password)
     message.success('修改成功，新密码是：' + password)
   } catch {}
 }

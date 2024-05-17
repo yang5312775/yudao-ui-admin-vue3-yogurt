@@ -31,8 +31,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="用户昵称" prop="nickname">
-            <el-input v-model="formData.nickname" placeholder="请输入用户昵称" />
+          <el-form-item label="用户昵称" prop="nickName">
+            <el-input v-model="formData.nickName" placeholder="请输入用户昵称" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -95,18 +95,19 @@ const dialogTitle = ref('') // 弹窗的标题
 const formLoading = ref(false) // 表单的加载中：1）修改时的数据加载；2）提交的按钮禁用
 const formType = ref('') // 表单的类型：create - 新增；update - 修改
 const formData = ref({
-  nickname: '',
+  nickName: '',
   deptId: '',
   mobile: '',
   email: '',
   id: undefined,
-  username: '',
+  userName: '',
+  realName: '',
   password: '',
   sex: undefined,
   postIds: [],
   remark: '',
   status: CommonStatusEnum.ENABLE,
-  roleIds: []
+  roleId: undefined
 })
 const formRules = reactive<FormRules>({
   username: [{ required: true, message: '用户名称不能为空', trigger: 'blur' }],
@@ -132,7 +133,7 @@ const deptList = ref<Tree[]>([]) // 树形结构
 const postList = ref([] as PostApi.PostVO[]) // 岗位列表
 
 /** 打开弹窗 */
-const open = async (type: string, id?: number) => {
+const open = async (type: string, id?: any) => {
   dialogVisible.value = true
   dialogTitle.value = t('action.' + type)
   formType.value = type
@@ -141,7 +142,7 @@ const open = async (type: string, id?: number) => {
   if (id) {
     formLoading.value = true
     try {
-      formData.value = await UserApi.getUser(id)
+      formData.value = id
     } finally {
       formLoading.value = false
     }
@@ -179,18 +180,19 @@ const submitForm = async () => {
 /** 重置表单 */
 const resetForm = () => {
   formData.value = {
-    nickname: '',
+    nickName: '',
+    realName: '',
     deptId: '',
     mobile: '',
     email: '',
     id: undefined,
-    username: '',
+    userName: '',
     password: '',
     sex: undefined,
     postIds: [],
     remark: '',
     status: CommonStatusEnum.ENABLE,
-    roleIds: []
+    roleId: undefined
   }
   formRef.value?.resetFields()
 }

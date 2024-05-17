@@ -108,7 +108,7 @@ export enum DICT_TYPE {
 
   // ========== SYSTEM 模块 ==========
   SYSTEM_FUNCTION_TYPE = 'DICT_FUNCTION_TYPE',
-  SYSTEM_USER_SEX = 'system_user_sex',
+  SYSTEM_USER_SEX = 'DICT_SEX',
   SYSTEM_MENU_TYPE = 'DICT_MENU_TYPE',
   SYSTEM_ROLE_TYPE = 'DICT_ROLE_TYPE',
   SYSTEM_DATA_SCOPE = 'system_data_scope',

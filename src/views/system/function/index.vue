@@ -65,7 +65,7 @@
           <dict-tag :type="DICT_TYPE.SYSTEM_FUNCTION_TYPE" :value="scope.row.method" />
         </template>
       </el-table-column>
-      <el-table-column :show-overflow-tooltip="true" label="路径" prop="id" width="300" />
+      <el-table-column :show-overflow-tooltip="true" label="路径" prop="url" width="300" />
       <el-table-column :show-overflow-tooltip="true" label="包名称" prop="className" width="500" />
       <el-table-column label="鉴权" prop="token" width="100">
         <template #default="scope">
@@ -76,6 +76,18 @@
                 @change="handleTokenChange(scope.row)"
               />
             </template>
+      </el-table-column>
+      <el-table-column :width="300" align="center" label="操作">
+        <template #default="scope">
+          <el-button v-if="scope.row.type === 1"
+            v-hasPermi="['/uaa/function/updateFunctionName']"
+            link
+            type="primary"
+            @click="handleUpdateName(scope.row)"
+          >
+            编辑
+          </el-button>
+        </template>
       </el-table-column>
     </el-table>
   </ContentWrap>
@@ -104,6 +116,22 @@ const queryParams = reactive({
 const queryFormRef = ref() // 搜索的表单
 const isExpandAll = ref(false) // 是否展开，默认全部折叠
 const refreshTable = ref(true) // 重新渲染表格状态
+
+/** 重置名称 */
+const handleUpdateName = async (row: any) => {
+  try {
+    // 重置的二次确认
+    const result = await message.prompt(
+      '请输入新的名称',
+      t('common.reminder')
+    )
+    row.name = result.value
+    // 发起重置
+    await FunctionApi.updateFunctionName(row)
+    message.success('修改成功')
+  } catch {}
+}
+
 
 /** 查询列表 */
 const getList = async () => {

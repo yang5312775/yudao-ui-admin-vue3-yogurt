@@ -34,17 +34,17 @@ export const getUser = (id: number) => {
 
 // 新增用户
 export const createUser = (data: UserVO) => {
-  return request.post({ url: '/system/user/create', data })
+  return request.post({ url: '/uaa/user/regist', data })
 }
 
 // 修改用户
 export const updateUser = (data: UserVO) => {
-  return request.put({ url: '/system/user/update', data })
+  return request.put({ url: '/uaa/user/updateUserInfo', data })
 }
 
 // 删除用户
 export const deleteUser = (id: number) => {
-  return request.delete({ url: '/system/user/delete?id=' + id })
+  return request.delete({ url: '/uaa/user/deleteUser?id=' + id })
 }
 
 // 导出用户
@@ -58,12 +58,13 @@ export const importUserTemplate = () => {
 }
 
 // 用户密码重置
-export const resetUserPwd = (id: number, password: string) => {
+export const resetUserPwd = (id: number, oldPassword: string , newPassword: string) => {
   const data = {
     id,
-    password
+    oldPassword,
+    newPassword
   }
-  return request.put({ url: '/system/user/update-password', data: data })
+  return request.put({ url: '/uaa/user/updatePassword', data: data })
 }
 
 // 用户状态修改
@@ -72,7 +73,7 @@ export const updateUserStatus = (id: number, status: number) => {
     id,
     status
   }
-  return request.put({ url: '/system/user/update-status', data: data })
+  return request.put({ url: '/uaa/user/updateUserStatus', data: data })
 }
 
 // 获取用户精简信息列表
